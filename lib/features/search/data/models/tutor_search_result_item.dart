@@ -1,0 +1,1 @@
+export 'package:one_point/features/search/domain/entities/tutor_search_result_item.dart';

@@ -13,7 +13,7 @@ class CommunitySection extends StatelessWidget {
       'content': '내용입니다. 커뮤니티 게시글의 내용이 여기에 표시됩니다. 길어질 경우 여러 줄로 표시될 수 있습니다.',
       'likes': (index + 1) * 5,
       'comments': (index + 1) * 2,
-      'image_url': 'https://picsum.photos/seed/post${index}/100/100',
+      'image_url': 'https://picsum.photos/seed/post$index/100/100',
     });
 
     return Padding(

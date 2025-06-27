@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:one_point/core/widgets/layout/page_scaffold.dart';
 import 'package:one_point/core/utils/responsive.dart';
 import 'package:one_point/features/home/presentation/widgets/main_banner_widget.dart';

@@ -38,7 +38,7 @@ class RecommendationCompletePage extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '$nickname',
+                      text: nickname,
                       style: const TextStyle(
                         color: Color(0xFF2563EB),
                         fontWeight: FontWeight.w700,

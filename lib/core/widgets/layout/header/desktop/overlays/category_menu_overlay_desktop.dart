@@ -99,7 +99,7 @@ class CategoryOverlayMenu extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

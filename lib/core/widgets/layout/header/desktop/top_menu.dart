@@ -23,7 +23,7 @@ class TopMenu extends StatelessWidget {
               onTap: () {
                 switch (label) {
                   case '로그인':
-                    print('[TopMenu] 로그인 클릭됨'); // ✅ 확인용
+                    debugPrint('[TopMenu] 로그인 클릭됨'); // ✅ 확인용
                     context.go(RouteNames.login);
                     break;
                   case '회원가입':

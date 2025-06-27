@@ -137,12 +137,12 @@ class SignupPage extends StatelessWidget {
           onPressed: () {
               GoRouter.of(context).go('/signup/email');
             },
-            child: Text('이메일로 시작하기', style: _buttonTextStyle.copyWith(color: Colors.black)),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: _borderGray, width: 2),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               backgroundColor: Colors.white,
             ),
+            child: Text('이메일로 시작하기', style: _buttonTextStyle.copyWith(color: Colors.black)),
           ),
         ),
       );
@@ -187,13 +187,13 @@ class SignupPage extends StatelessWidget {
                   builder: (_) => const LoginModal(),
                 );
               },
-              child: const Text('로그인', style: _loginTextStyle),
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
                 minimumSize: const Size(0, 0),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 overlayColor: Colors.transparent,
               ),
+              child: const Text('로그인', style: _loginTextStyle),
             ),
         ),
       ],
