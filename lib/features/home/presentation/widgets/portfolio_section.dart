@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
 
 class PortfolioSection extends StatelessWidget {
   const PortfolioSection({super.key});
@@ -9,7 +9,7 @@ class PortfolioSection extends StatelessWidget {
     // TODO: 데이터 모델을 만들고 mock 데이터로 교체해야 합니다.
     final portfolios = List.generate(10, (index) => {
       'title': '포트폴리오 ${index + 1}',
-      'image_url': 'https://picsum.photos/seed/portfolio${index}/200/200',
+      'image_url': 'https://picsum.photos/seed/portfolio$index/200/200',
       'expert': '고수 이름 ${index + 1}',
     });
 

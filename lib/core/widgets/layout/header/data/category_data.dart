@@ -1,4 +1,4 @@
-import 'package:one_point/core/widgets/layout/header/model/category_group_model.dart';
+import 'package:fitkle/core/widgets/layout/header/model/category_group_model.dart';
 
 const List<CategoryGroup> categoryGroups = [
   CategoryGroup(

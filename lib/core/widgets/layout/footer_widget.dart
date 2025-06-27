@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/theme/dimens.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/dimens.dart';
 
 class FooterWidget extends StatelessWidget {
   final double horizontalPadding;
@@ -62,12 +62,12 @@ class FooterWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '© 2025 one_point. All rights reserved.',
+          '© 2025 fitkle. All rights reserved.',
           style: AppTextStyles.footerInfoStyle(isApp),
         ),
         SizedBox(height: Dimens.footerCopyrightSpacing),
         Text(
-          'Contact: one_point@gmail.com',
+          'Contact: fitkle@gmail.com',
           style: AppTextStyles.footerInfoStyle(isApp),
         ),
       ],

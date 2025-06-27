@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/widgets/layout/header/desktop/overlays/category_menu_overlay_desktop.dart';
-import 'package:one_point/core/widgets/layout/header/model/category_group_model.dart';
+import 'package:fitkle/core/widgets/layout/header/desktop/overlays/category_menu_overlay_desktop.dart';
+import 'package:fitkle/core/widgets/layout/header/model/category_group_model.dart';
 
 class CategoryBarOverlay {
   static OverlayEntry build({

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/theme/dimens.dart';
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/core/widgets/layout/header/desktop/overlays/logo_bar_product_card.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/dimens.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/core/widgets/layout/header/desktop/overlays/logo_bar_product_card.dart';
 import 'overlay_header.dart';
 import 'overlay_title.dart';
 import 'overlay_pagination.dart';

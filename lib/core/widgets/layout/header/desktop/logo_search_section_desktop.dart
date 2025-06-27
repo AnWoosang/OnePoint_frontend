@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/dimens.dart';
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/core/router/route_names.dart';
-import 'package:one_point/core/widgets/layout/header/desktop/overlays/logo_search_overlay_builder.dart';
-import 'package:one_point/core/widgets/layout/header/desktop/search_bar.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/theme/dimens.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/core/router/route_names.dart';
+import 'package:fitkle/core/widgets/layout/header/desktop/overlays/logo_search_overlay_builder.dart';
+import 'package:fitkle/core/widgets/layout/header/desktop/search_bar.dart';
 
 class LogoSearchSectionDesktop extends StatefulWidget {
   const LogoSearchSectionDesktop({super.key});
@@ -78,7 +78,7 @@ class _LogoSearchSectionDesktopState extends State<LogoSearchSectionDesktop> {
     final actionTextStyle = AppTextStyles.headerLeftMenuDesktop;
     final elementGap = Dimens.logoSearchElementGap;
     final itemGap = Dimens.logoSearchItemGap;
-    final logoTitle = 'one_point';
+    final logoTitle = 'fitkle';
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

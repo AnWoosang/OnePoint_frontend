@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_point/features/pages/signup_page.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginModal extends StatefulWidget {
@@ -145,8 +143,8 @@ class _LoginModalState extends State<LoginModal> {
                         activeColor: AppColors.grayLighter,
                         checkColor: AppColors.gray,
                         hoverColor: Colors.transparent,
-                        overlayColor: MaterialStateProperty.resolveWith((states) {
-                          if (states.contains(MaterialState.hovered) || states.contains(MaterialState.pressed)) {
+                        overlayColor: WidgetStateProperty.resolveWith((states) {
+                          if (states.contains(WidgetState.hovered) || states.contains(WidgetState.pressed)) {
                             return Colors.transparent;
                           }
                           return Colors.transparent;

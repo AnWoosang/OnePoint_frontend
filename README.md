@@ -1,4 +1,4 @@
-# one_point
+# fitkle
 
 A new Flutter project.
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/widgets/layout/header/model/category_group_model.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/widgets/layout/header/model/category_group_model.dart';
 
 class CategoryOverlayMenu extends StatelessWidget {
   final Offset position;
@@ -99,7 +99,7 @@ class CategoryOverlayMenu extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

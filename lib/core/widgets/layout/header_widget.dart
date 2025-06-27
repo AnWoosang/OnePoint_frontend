@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/core/theme/dimens.dart';
-import 'header/desktop/top_menu.dart';
-import 'header/logo_search_section.dart';
-import 'header/category_bar.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/widgets/login_modal.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/widgets/login_modal.dart';
 
 class HeaderWidget extends StatefulWidget {
   final bool isApp;
@@ -21,22 +17,9 @@ class HeaderWidget extends StatefulWidget {
 }
 
 class _HeaderWidgetState extends State<HeaderWidget> {
-  String _selectedTab = '홈';
-
-  void _handleTabSelect(String label) {
-    setState(() {
-      _selectedTab = label;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final horizontalPadding = Responsive.getResponsiveHorizontalPadding(context);
-    bool isApp = widget.isApp;
-
-    final verticalSpacing = isApp
-        ? Dimens.headerVerticalSpacingMobile
-        : Dimens.headerVerticalSpacingDesktop;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 16),

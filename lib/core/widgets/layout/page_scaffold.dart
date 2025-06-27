@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/core/widgets/layout/header_widget.dart';
-import 'package:one_point/core/widgets/layout/footer_widget.dart';
-import 'package:one_point/core/widgets/layout/mobile/mobile_bottom_nav.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/core/widgets/layout/header_widget.dart';
+import 'package:fitkle/core/widgets/layout/footer_widget.dart';
+import 'package:fitkle/core/widgets/layout/mobile/mobile_bottom_nav.dart';
 
 class PageScaffold extends StatefulWidget {
   final Widget child;

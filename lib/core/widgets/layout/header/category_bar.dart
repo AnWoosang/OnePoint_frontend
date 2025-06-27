@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/widgets/layout/header/desktop/category_bar_desktop.dart';
-import 'package:one_point/core/widgets/layout/header/mobile/category_bar_mobile.dart';
+import 'package:fitkle/core/widgets/layout/header/desktop/category_bar_desktop.dart';
+import 'package:fitkle/core/widgets/layout/header/mobile/category_bar_mobile.dart';
 
 class CategoryBar extends StatelessWidget {
   final double padding;

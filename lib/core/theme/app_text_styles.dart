@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/extensions/num_extensions.dart';
+import 'package:fitkle/core/extensions/num_extensions.dart';
 import 'app_colors.dart';
 
 /// `.sp.clampDouble(min, max)` 으로 사용 가능

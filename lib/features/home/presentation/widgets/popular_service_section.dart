@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
 
 class PopularServiceSection extends StatelessWidget {
   const PopularServiceSection({super.key});
@@ -9,7 +9,7 @@ class PopularServiceSection extends StatelessWidget {
     // TODO: 데이터 모델을 만들고 mock 데이터로 교체해야 합니다.
     final popularServices = List.generate(10, (index) => {
       'title': '서비스 제목 ${index + 1}',
-      'image_url': 'https://picsum.photos/seed/service${index}/150/150',
+      'image_url': 'https://picsum.photos/seed/service$index/150/150',
       'category': '카테고리 ${index % 3}',
     });
 
