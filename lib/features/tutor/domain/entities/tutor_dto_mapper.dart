@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/features/tutor/data/dto/tutor_dto.dart';
-import 'package:one_point/features/tutor/domain/entities/tutor_models.dart';
+import 'package:fitkle/features/tutor/data/dto/tutor_dto.dart';
+import 'package:fitkle/features/tutor/domain/entities/tutor_models.dart';
 
 // Main DTO to Model Mapper Extension
 extension TutorDTOMapper on TutorDTO {

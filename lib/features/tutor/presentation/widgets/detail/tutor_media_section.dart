@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/features/tutor/domain/entities/tutor_models.dart';
-import 'package:one_point/features/tutor/presentation/widgets/detail/image_viewer_dialog.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/features/tutor/domain/entities/tutor_models.dart';
+import 'package:fitkle/features/tutor/presentation/widgets/detail/image_viewer_dialog.dart';
 
 class TutorMediaSection extends StatelessWidget {
   final Tutor tutor;

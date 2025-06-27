@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:one_point/features/tutor/domain/usecases/get_tutor_detail_usecase.dart';
-import 'package:one_point/features/tutor/domain/entities/common/tutor.dart';
+import 'package:fitkle/features/tutor/domain/usecases/get_tutor_detail_usecase.dart';
+import 'package:fitkle/features/tutor/domain/entities/common/tutor.dart';
 
 class TutorDetailProvider extends ChangeNotifier {
   final GetTutorDetailUseCase _getTutorDetail;

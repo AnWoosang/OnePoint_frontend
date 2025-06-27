@@ -1,21 +1,21 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/app/router/route_names.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/app/router/route_names.dart';
 
-import 'package:one_point/features/home/presentation/screens/home_screen.dart';
-import 'package:one_point/features/auth/presentation/screens/signup_page.dart';
-import 'package:one_point/features/auth/presentation/screens/login_page.dart';
-import 'package:one_point/features/mypage/presentation/screens/mypage_desktop.dart';
-import 'package:one_point/features/mypage/presentation/screens/mypage_mobile.dart';
-import 'package:one_point/features/auth/presentation/screens/email_signup_page.dart';
-import 'package:one_point/features/auth/presentation/screens/client_email_register_page.dart';
-import 'package:one_point/features/auth/presentation/screens/identity_verification_page.dart';
-import 'package:one_point/features/recommendation/presentation/screens/recommendation_complete_page.dart';
-import 'package:one_point/features/recommendation/presentation/screens/service_recommendation_survey_page.dart';
+import 'package:fitkle/features/home/presentation/screens/home_screen.dart';
+import 'package:fitkle/features/auth/presentation/screens/signup_page.dart';
+import 'package:fitkle/features/auth/presentation/screens/login_page.dart';
+import 'package:fitkle/features/mypage/presentation/screens/mypage_desktop.dart';
+import 'package:fitkle/features/mypage/presentation/screens/mypage_mobile.dart';
+import 'package:fitkle/features/auth/presentation/screens/email_signup_page.dart';
+import 'package:fitkle/features/auth/presentation/screens/client_email_register_page.dart';
+import 'package:fitkle/features/auth/presentation/screens/identity_verification_page.dart';
+import 'package:fitkle/features/recommendation/presentation/screens/recommendation_complete_page.dart';
+import 'package:fitkle/features/recommendation/presentation/screens/service_recommendation_survey_page.dart';
 
-import 'package:one_point/features/search/presentation/screens/tutor_search_screen.dart';
-import 'package:one_point/features/tutor/presentation/screens/tutor_detail_screen.dart';
+import 'package:fitkle/features/search/presentation/screens/tutor_search_screen.dart';
+import 'package:fitkle/features/tutor/presentation/screens/tutor_detail_screen.dart';
 
 final router = GoRouter(
   initialLocation: RouteNames.home,

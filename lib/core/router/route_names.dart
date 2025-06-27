@@ -1,1 +1,1 @@
-export 'package:one_point/app/router/route_names.dart';
+export 'package:fitkle/app/router/route_names.dart';

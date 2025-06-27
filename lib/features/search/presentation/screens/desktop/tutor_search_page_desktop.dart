@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:one_point/core/widgets/layout/header_widget.dart';
-import 'package:one_point/core/widgets/layout/footer_widget.dart';
-import 'package:one_point/core/router/route_names.dart';
+import 'package:fitkle/core/widgets/layout/header_widget.dart';
+import 'package:fitkle/core/widgets/layout/footer_widget.dart';
+import 'package:fitkle/core/router/route_names.dart';
 import '../../providers/tutor_search_provider.dart';
 import '../../widgets/tutor_search_bar_section.dart';
 import '../../widgets/tutor_search_result_card.dart';

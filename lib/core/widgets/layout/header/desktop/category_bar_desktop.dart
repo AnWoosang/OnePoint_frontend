@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/theme/dimens.dart';
-import 'package:one_point/core/widgets/layout/header/data/category_data.dart';
-import 'package:one_point/core/widgets/layout/header/model/category_group_model.dart';
-import 'package:one_point/core/widgets/layout/header/desktop/overlays/category_menu_overlay_desktop.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/dimens.dart';
+import 'package:fitkle/core/widgets/layout/header/data/category_data.dart';
+import 'package:fitkle/core/widgets/layout/header/model/category_group_model.dart';
+import 'package:fitkle/core/widgets/layout/header/desktop/overlays/category_menu_overlay_desktop.dart';
 
 class CategoryBarDesktop extends StatefulWidget {
   final double padding;

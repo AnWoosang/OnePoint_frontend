@@ -5,8 +5,8 @@ import '../../../constants/search_constants.dart';
 import '../../providers/tutor_search_provider.dart';
 import '../../widgets/tutor_search_bar_section.dart';
 import '../../widgets/mobile/tutor_search_result_card_mobile.dart';
-import 'package:one_point/core/widgets/layout/mobile/mobile_bottom_nav.dart';
-import 'package:one_point/core/router/route_names.dart';
+import 'package:fitkle/core/widgets/layout/mobile/mobile_bottom_nav.dart';
+import 'package:fitkle/core/router/route_names.dart';
 
 /// 모바일 검색 메인 페이지 (nav_bar가 보이는 첫 화면)
 class TutorSearchPageMobile extends StatefulWidget {

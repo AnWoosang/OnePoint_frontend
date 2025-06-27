@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/features/tutor/data/repositories/tutor_repository_impl.dart';
-import 'package:one_point/features/tutor/domain/usecases/get_tutor_detail_usecase.dart';
-import 'package:one_point/features/tutor/presentation/providers/tutor_detail_provider.dart';
-import 'package:one_point/features/tutor/presentation/screens/desktop/tutor_detail_page_desktop.dart';
-import 'package:one_point/features/tutor/presentation/screens/mobile/tutor_detail_page_mobile.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/features/tutor/data/repositories/tutor_repository_impl.dart';
+import 'package:fitkle/features/tutor/domain/usecases/get_tutor_detail_usecase.dart';
+import 'package:fitkle/features/tutor/presentation/providers/tutor_detail_provider.dart';
+import 'package:fitkle/features/tutor/presentation/screens/desktop/tutor_detail_page_desktop.dart';
+import 'package:fitkle/features/tutor/presentation/screens/mobile/tutor_detail_page_mobile.dart';
 
 class TutorDetailScreen extends StatelessWidget {
   final String tutorId;

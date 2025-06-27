@@ -1,4 +1,4 @@
-import 'package:one_point/features/search/data/models/tutor_search_result_item.dart';
+import 'package:fitkle/features/search/data/models/tutor_search_result_item.dart';
 
 final List<TutorSearchResultItem> mockSearchResults = [
   TutorSearchResultItem(

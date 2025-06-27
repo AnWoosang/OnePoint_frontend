@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/features/search/presentation/screens/desktop/tutor_search_page_desktop.dart';
-import 'package:one_point/features/search/presentation/screens/mobile/tutor_search_page_mobile.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/features/search/presentation/screens/desktop/tutor_search_page_desktop.dart';
+import 'package:fitkle/features/search/presentation/screens/mobile/tutor_search_page_mobile.dart';
 import 'package:provider/provider.dart';
-import 'package:one_point/features/search/presentation/providers/tutor_search_provider.dart';
-import 'package:one_point/features/search/data/repositories/tutor_search_repository.dart';
+import 'package:fitkle/features/search/presentation/providers/tutor_search_provider.dart';
+import 'package:fitkle/features/search/data/repositories/tutor_search_repository.dart';
 
 class TutorSearchScreen extends StatelessWidget {
   const TutorSearchScreen({super.key});

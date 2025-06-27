@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/router/route_names.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/router/route_names.dart';
 import '../header_link.dart';
 
 class TopMenu extends StatelessWidget {

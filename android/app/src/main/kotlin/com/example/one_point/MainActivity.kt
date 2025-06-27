@@ -1,4 +1,4 @@
-package com.example.one_point
+package com.example.fitkle
 
 import io.flutter.embedding.android.FlutterActivity
 

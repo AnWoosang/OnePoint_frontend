@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:one_point/core/router/route_names.dart';
-import 'package:one_point/core/widgets/login_modal.dart';
+import 'package:fitkle/core/router/route_names.dart';
+import 'package:fitkle/core/widgets/login_modal.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});

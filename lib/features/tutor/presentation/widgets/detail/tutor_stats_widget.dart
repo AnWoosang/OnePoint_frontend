@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/features/tutor/domain/entities/tutor_models.dart';
+import 'package:fitkle/features/tutor/domain/entities/tutor_models.dart';
 
 class TutorStatsWidget extends StatelessWidget {
   final Tutor tutor;

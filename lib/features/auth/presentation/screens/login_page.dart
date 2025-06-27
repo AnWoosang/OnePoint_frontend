@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/widgets/layout/page_scaffold.dart';
+import 'package:fitkle/core/widgets/layout/page_scaffold.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

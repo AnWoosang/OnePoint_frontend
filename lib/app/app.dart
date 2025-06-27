@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:one_point/core/theme/theme.dart';
+import 'package:fitkle/core/theme/theme.dart';
 import 'router/app_router.dart';
 
 class AppRoot extends StatelessWidget {

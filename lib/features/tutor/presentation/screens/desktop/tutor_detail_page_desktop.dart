@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:one_point/core/theme/app_colors.dart';
-import 'package:one_point/core/theme/app_text_styles.dart';
-import 'package:one_point/core/theme/dimens.dart';
-import 'package:one_point/core/widgets/layout/footer_widget.dart';
-import 'package:one_point/core/widgets/layout/header_widget.dart';
-import 'package:one_point/features/tutor/domain/entities/tutor_models.dart';
-import 'package:one_point/features/tutor/presentation/widgets/detail/tutor_info_section.dart';
-import 'package:one_point/features/tutor/presentation/widgets/detail/tutor_portfolio_section.dart';
-import 'package:one_point/features/tutor/presentation/widgets/detail/tutor_qa_section.dart';
-import 'package:one_point/features/tutor/presentation/widgets/detail/tutor_review_section.dart';
-import 'package:one_point/features/tutor/presentation/widgets/detail/tutor_media_section.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/theme/app_text_styles.dart';
+import 'package:fitkle/core/theme/dimens.dart';
+import 'package:fitkle/core/widgets/layout/footer_widget.dart';
+import 'package:fitkle/core/widgets/layout/header_widget.dart';
+import 'package:fitkle/features/tutor/domain/entities/tutor_models.dart';
+import 'package:fitkle/features/tutor/presentation/widgets/detail/tutor_info_section.dart';
+import 'package:fitkle/features/tutor/presentation/widgets/detail/tutor_portfolio_section.dart';
+import 'package:fitkle/features/tutor/presentation/widgets/detail/tutor_qa_section.dart';
+import 'package:fitkle/features/tutor/presentation/widgets/detail/tutor_review_section.dart';
+import 'package:fitkle/features/tutor/presentation/widgets/detail/tutor_media_section.dart';
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this.child);

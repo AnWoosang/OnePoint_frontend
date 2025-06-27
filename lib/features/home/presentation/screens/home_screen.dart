@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/widgets/layout/page_scaffold.dart';
-import 'package:one_point/core/utils/responsive.dart';
-import 'package:one_point/features/home/presentation/widgets/main_banner_widget.dart';
-import 'package:one_point/features/home/presentation/widgets/popular_service_section.dart';
-import 'package:one_point/features/home/presentation/widgets/community_section.dart';
-import 'package:one_point/features/home/presentation/widgets/portfolio_section.dart';
-import 'package:one_point/features/home/presentation/widgets/home_hero_section.dart';
+import 'package:fitkle/core/widgets/layout/page_scaffold.dart';
+import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/features/home/presentation/widgets/main_banner_widget.dart';
+import 'package:fitkle/features/home/presentation/widgets/popular_service_section.dart';
+import 'package:fitkle/features/home/presentation/widgets/community_section.dart';
+import 'package:fitkle/features/home/presentation/widgets/portfolio_section.dart';
+import 'package:fitkle/features/home/presentation/widgets/home_hero_section.dart';
 
 
 class HomeScreen extends StatefulWidget {

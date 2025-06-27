@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:one_point/core/router/route_names.dart';
+import 'package:fitkle/core/router/route_names.dart';
 
 class EmailSignupPage extends StatelessWidget {
   const EmailSignupPage({super.key});

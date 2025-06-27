@@ -1,4 +1,4 @@
-import 'package:one_point/features/tutor/domain/entities/tutor_models.dart';
+import 'package:fitkle/features/tutor/domain/entities/tutor_models.dart';
 
 class Tutor {
   final String id;

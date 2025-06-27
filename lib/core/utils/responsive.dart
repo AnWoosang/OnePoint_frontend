@@ -1,5 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:one_point/core/theme/dimens.dart';
+import 'package:fitkle/core/theme/dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 

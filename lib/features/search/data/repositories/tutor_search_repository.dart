@@ -1,9 +1,9 @@
 import '../dto/tutor_search_response_dto.dart';
-import 'package:one_point/features/search/domain/entities/tutor_search_params.dart';
-import 'package:one_point/features/search/domain/repositories/tutor_search_repository.dart';
+import 'package:fitkle/features/search/domain/entities/tutor_search_params.dart';
+import 'package:fitkle/features/search/domain/repositories/tutor_search_repository.dart';
 import '../mock/mock_search_result_items.dart';
 
-export 'package:one_point/features/search/domain/repositories/tutor_search_repository.dart';
+export 'package:fitkle/features/search/domain/repositories/tutor_search_repository.dart';
 
 class TutorSearchRepositoryImpl implements TutorSearchRepository {
   // 실제로는 여기서 HTTP 요청을 보냄

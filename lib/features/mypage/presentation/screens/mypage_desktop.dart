@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_point/core/widgets/layout/page_scaffold.dart';
+import 'package:fitkle/core/widgets/layout/page_scaffold.dart';
 
 class MypageDesktop extends StatelessWidget {
   const MypageDesktop({super.key});

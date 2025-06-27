@@ -1,1 +1,1 @@
-export 'package:one_point/features/search/domain/entities/tutor_search_params.dart';
+export 'package:fitkle/features/search/domain/entities/tutor_search_params.dart';

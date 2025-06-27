@@ -1,4 +1,4 @@
-import 'package:one_point/features/tutor/data/dto/tutor_dto.dart';
+import 'package:fitkle/features/tutor/data/dto/tutor_dto.dart';
 
 final List<TutorDTO> mockTutors = [
   TutorDTO(

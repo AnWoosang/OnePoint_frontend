@@ -1,9 +1,9 @@
-export 'package:one_point/features/tutor/domain/repositories/tutor_repository.dart';
+export 'package:fitkle/features/tutor/domain/repositories/tutor_repository.dart';
 
-import 'package:one_point/features/tutor/domain/entities/common/tutor.dart';
-import 'package:one_point/features/tutor/domain/repositories/tutor_repository.dart';
-import 'package:one_point/features/tutor/data/mock/mock_tutors.dart';
-import 'package:one_point/features/tutor/data/dto/tutor_dto_mapper.dart';
+import 'package:fitkle/features/tutor/domain/entities/common/tutor.dart';
+import 'package:fitkle/features/tutor/domain/repositories/tutor_repository.dart';
+import 'package:fitkle/features/tutor/data/mock/mock_tutors.dart';
+import 'package:fitkle/features/tutor/data/dto/tutor_dto_mapper.dart';
 
 class TutorRepositoryImpl implements TutorRepository {
   @override
