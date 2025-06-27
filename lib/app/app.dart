@@ -14,7 +14,7 @@ class AppRoot extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => MaterialApp.router(
-        title: 'OnePoint',
+        title: 'FITKLE',
         debugShowCheckedModeBanner: false,
         theme: appTheme,
         routerConfig: router,
