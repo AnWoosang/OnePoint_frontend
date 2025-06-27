@@ -5,6 +5,7 @@ class AppColors {
   static const Color white = Colors.white;
   static const Color black = Colors.black;
   static const Color red = Color(0xFFFF3B30);
+  static const Color limeOlive = Color(0xFFB7C774);
 
   // ✅ 브랜드 색상
   static const Color primary = Color(0xFF7C3AED); // 예: 보라색 (Tailwind violet-600 기준)
@@ -23,6 +24,7 @@ class AppColors {
   static const Color success = Color(0xFF10B981); // 초록
   static const Color warning = Color(0xFFF59E0B); // 주황
   static const Color error = Color(0xFFEF4444);   // 빨강
+  static const Color yellow = Color(0xFFFFD100);   // 노랑
 
   // ✅ 텍스트 컬러
   static const Color textDefault = gray;

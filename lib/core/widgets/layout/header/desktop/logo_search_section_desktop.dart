@@ -75,7 +75,7 @@ class _LogoSearchSectionDesktopState extends State<LogoSearchSectionDesktop> {
     final logoFontStyle = AppTextStyles.logoTitleDesktop;
     final searchBarHeight = Dimens.searchBarHeightDesktop;
     final iconSize = Dimens.logoActionIconSizeDesktop;
-    final actionTextStyle = AppTextStyles.logoActionTextDesktop;
+    final actionTextStyle = AppTextStyles.headerLeftMenuDesktop;
     final elementGap = Dimens.logoSearchElementGap;
     final itemGap = Dimens.logoSearchItemGap;
     final logoTitle = 'one_point';

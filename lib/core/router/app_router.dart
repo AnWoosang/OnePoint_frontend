@@ -19,7 +19,11 @@ import 'package:one_point/features/community/pages/community_mobile.dart';
 import 'package:one_point/features/community/pages/community_desktop.dart';
 import 'package:one_point/features/community/pages/post_detail_mobile.dart';
 import 'package:one_point/features/community/pages/post_detail_desktop.dart';
-
+import 'package:one_point/features/pages/email_signup_page.dart';
+import 'package:one_point/features/pages/client_email_register_page.dart';
+import 'package:one_point/features/pages/identity_verification_page.dart';
+import 'package:one_point/features/pages/recommendation_complete_page.dart';
+import 'package:one_point/features/pages/service_recommendation_survey_page.dart';
 
 import 'package:one_point/features/community/data/mock/mock_posts.dart';
 
@@ -73,6 +77,14 @@ final router = GoRouter(
       path: RouteNames.signup,
       builder: (context, state) => const SignupPage(),
     ),
+    GoRoute(
+      path: '/signup/email',
+      builder: (context, state) => const EmailSignupPage(),
+    ),
+    GoRoute(
+      path: '/signup/email/client',
+      builder: (context, state) => const ClientEmailRegisterPage(),
+    ),
     //로그인
     GoRoute(
       path: RouteNames.login,
@@ -105,6 +117,18 @@ final router = GoRouter(
             ? PostDetailMobile(post: post)
             : PostDetailDesktop(post: post);
       },
+    ),
+    GoRoute(
+      path: '/identity-verification',
+      builder: (context, state) => const IdentityVerificationPage(),
+    ),
+    GoRoute(
+      path: '/recommendation-complete',
+      builder: (context, state) => const RecommendationCompletePage(),
+    ),
+    GoRoute(
+      path: '/service-recommendation-survey',
+      builder: (context, state) => const ServiceRecommendationSurveyPage(),
     ),
   ],
 );

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:one_point/core/utils/responsive.dart';
 import 'package:one_point/core/theme/dimens.dart';
 import 'header/desktop/top_menu.dart';
 import 'header/logo_search_section.dart';
 import 'header/category_bar.dart';
 import 'package:one_point/core/theme/app_text_styles.dart';
+import 'package:one_point/core/widgets/login_modal.dart';
 
 class HeaderWidget extends StatefulWidget {
   final bool isApp;
@@ -45,18 +47,21 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             onTap: () {
               // TODO: 홈으로 이동
             },
-            child: Text('one_point', style: AppTextStyles.logoTitleDesktop),
+            child: SvgPicture.asset(
+              'assets/logo/FITKLE.svg',
+              height: 24, // 로고 높이 조절
+            ),
           ),
-          const SizedBox(width: 40),
+          const SizedBox(width: 30),
 
           // 왼쪽 메뉴
           ...['견적요청', '고수찾기', '마켓', '커뮤니티'].map((label) => Padding(
-            padding: const EdgeInsets.only(right: 24),
+            padding: const EdgeInsets.only(right: 15),
             child: GestureDetector(
               onTap: () {
                 // TODO: 각 메뉴별 라우팅
               },
-              child: Text(label, style: AppTextStyles.logoActionTextDesktop),
+              child: Text(label, style: AppTextStyles.headerLeftMenuDesktop),
             ),
           )),
 
@@ -64,13 +69,21 @@ class _HeaderWidgetState extends State<HeaderWidget> {
           Expanded(child: Container()),
 
           // 오른쪽 메뉴
-          ...['로그인', '회원가입', '튜터등록'].map((label) => Padding(
-            padding: const EdgeInsets.only(left: 24),
+          ...['로그인', '튜터등록'].map((label) => Padding(
+            padding: const EdgeInsets.only(left: 15),
             child: GestureDetector(
               onTap: () {
-                // TODO: 각 메뉴별 라우팅
+                if (label == '로그인') {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const LoginModal();
+                    },
+                  );
+                }
+                // TODO: 튜터등록 라우팅
               },
-              child: Text(label, style: AppTextStyles.logoActionTextDesktop),
+              child: Text(label, style: AppTextStyles.headerRightMenuDesktop),
             ),
           )),
         ],
