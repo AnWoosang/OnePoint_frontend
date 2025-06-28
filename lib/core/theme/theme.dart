@@ -4,7 +4,7 @@ import 'app_colors.dart';
 
 final ThemeData appTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.white,
-  primaryColor: AppColors.primary,
+  primaryColor: AppColors.grayLight,
   
   // 전역 폰트 설정 - 직접 추가한 Noto Sans KR
   fontFamily: 'NotoSansKR',

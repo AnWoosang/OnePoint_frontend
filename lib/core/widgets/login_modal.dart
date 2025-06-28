@@ -4,13 +4,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginModal extends StatefulWidget {
-  const LoginModal({super.key});
+  final VoidCallback? onLoginSuccess;
+  const LoginModal({super.key, this.onLoginSuccess});
   @override
   State<LoginModal> createState() => _LoginModalState();
 }
 
 class _LoginModalState extends State<LoginModal> {
   bool _isChecked = false;
+
+  void _handleLogin() {
+    if (widget.onLoginSuccess != null) {
+      widget.onLoginSuccess!();
+    }
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +124,7 @@ class _LoginModalState extends State<LoginModal> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              onPressed: () { /* TODO: Login Logic */ },
+              onPressed: _handleLogin,
               child: const Text('로그인', style: TextStyle(color: AppColors.black, fontSize: 16, fontWeight: FontWeight.w600)),
             ),
             const SizedBox(height: 16),
@@ -252,10 +260,13 @@ class _LoginModalState extends State<LoginModal> {
   }
 
   Widget _buildSocialLoginButton(Widget child, Color color) {
-    return CircleAvatar(
-      radius: 24,
-      backgroundColor: color,
-      child: child,
+    return GestureDetector(
+      onTap: _handleLogin,
+      child: CircleAvatar(
+        radius: 24,
+        backgroundColor: color,
+        child: child,
+      ),
     );
   }
 }
