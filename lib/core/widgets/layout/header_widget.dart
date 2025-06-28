@@ -164,6 +164,7 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
   bool _isProfileHovering = false;
   bool _isProfileOverlayHovering = false;
   bool _isInfoOverlayHovering = false;
+  bool _isSubmenuTriggerHovering = false;
   bool _submenuOpen = false;
 
   void _showOverlay() {
@@ -176,22 +177,30 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
     _hideSubmenu();
     _overlayEntry?.remove();
     _overlayEntry = null;
+    setState(() {
+      _isProfileOverlayHovering = false;
+      _isSubmenuTriggerHovering = false;
+    });
   }
 
   void _tryHideProfileOverlay() {
-    Future.delayed(const Duration(milliseconds: 150), () {
-      if (!_isProfileHovering && !_isProfileOverlayHovering && !_isInfoOverlayHovering) {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (!_isProfileHovering && !_isProfileOverlayHovering && !_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
         _hideOverlay();
       }
     });
   }
 
   void _tryHideInfoOverlay() {
-    Future.delayed(const Duration(milliseconds: 150), () {
-      if (!_isInfoOverlayHovering) {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (!_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
         _hideSubmenu();
       }
     });
+  }
+
+  void _forceHideAllOverlays() {
+    _hideOverlay();
   }
 
   void _showSubmenu(Offset parentOffset, double parentHeight) {
@@ -203,14 +212,16 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
     Overlay.of(context).insert(_submenuEntry!);
     setState(() {
       _submenuOpen = true;
-      _isInfoOverlayHovering = true;
     });
   }
 
   void _hideSubmenu() {
     _submenuEntry?.remove();
     _submenuEntry = null;
-    setState(() { _submenuOpen = false; });
+    setState(() { 
+      _submenuOpen = false;
+      _isInfoOverlayHovering = false;
+    });
   }
 
   OverlayEntry _buildOverlay() {
@@ -227,8 +238,12 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
           },
           onExit: (_) {
             setState(() => _isProfileOverlayHovering = false);
-            if (_submenuOpen) _hideSubmenu();
-            _tryHideProfileOverlay();
+            // 메인 오버레이를 벗어날 때 짧은 지연 후 모든 오버레이 닫기
+            Future.delayed(const Duration(milliseconds: 50), () {
+              if (!_isProfileHovering && !_isProfileOverlayHovering && !_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
+                _forceHideAllOverlays();
+              }
+            });
           },
           child: Material(
             elevation: 8,
@@ -272,7 +287,12 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) {
-        if (_submenuOpen) _hideSubmenu();
+        setState(() {
+          _isSubmenuTriggerHovering = false;
+        });
+        if (_submenuOpen) {
+          _hideSubmenu();
+        }
       },
       child: Material(
         color: Colors.transparent,
@@ -300,7 +320,10 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
       builder: (context, setStateSB) {
         return MouseRegion(
           onEnter: (_) {
-            setState(() => _isInfoOverlayHovering = true);
+            setState(() {
+              _isSubmenuTriggerHovering = true;
+              _isInfoOverlayHovering = true;
+            });
             setStateSB(() {});
             RenderBox? itemBox = context.findRenderObject() as RenderBox?;
             if (itemBox != null) {
@@ -310,8 +333,18 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
             }
           },
           onExit: (_) {
-            setState(() => _isInfoOverlayHovering = false);
-            _tryHideInfoOverlay();
+            setState(() {
+              _isSubmenuTriggerHovering = false;
+            });
+            // 서브메뉴 트리거를 벗어날 때 상태 확인
+            Future.delayed(const Duration(milliseconds: 50), () {
+              if (!_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
+                _hideSubmenu();
+              }
+              if (!_isProfileHovering && !_isProfileOverlayHovering && !_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
+                _forceHideAllOverlays();
+              }
+            });
           },
           child: InkWell(
             onTap: () {},
@@ -338,59 +371,51 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
 
   OverlayEntry _buildSubmenu(Offset parentOffset, double parentHeight) {
     const double overlayWidth = 150;
-    const double overlayHeight = 120;
-    const double marginLeft = 24;
+    const double overlayGap = 8; // 부모 오버레이와의 간격
+    
     return OverlayEntry(
       builder: (context) => Positioned(
-        left: parentOffset.dx + 180,
-        top: parentOffset.dy,
+        left: parentOffset.dx + 180 + overlayGap, // 부모 오버레이 오른쪽에 바로 배치
+        top: parentOffset.dy - 8, // 부모 메뉴 항목과 정렬
         child: MouseRegion(
           onEnter: (_) => setState(() => _isInfoOverlayHovering = true),
           onExit: (_) {
             setState(() => _isInfoOverlayHovering = false);
-            _tryHideInfoOverlay();
+            // 서브메뉴를 벗어날 때 짧은 지연 후 상태 확인하여 모든 오버레이 닫기
+            Future.delayed(const Duration(milliseconds: 50), () {
+              if (!_isProfileHovering && !_isProfileOverlayHovering && !_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
+                _forceHideAllOverlays();
+              } else if (!_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
+                _hideSubmenu();
+              }
+            });
           },
-          child: Container(
-            width: marginLeft + overlayWidth,
-            height: overlayHeight,
-            child: Stack(
-              children: [
-                Positioned(
-                  left: marginLeft,
-                  top: 0,
-                  width: overlayWidth,
-                  height: overlayHeight,
-                  child: Material(
-                    elevation: 8,
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      width: overlayWidth,
-                      height: overlayHeight,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
-                            blurRadius: 16,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _buildSubmenuItem('내 정보'),
-                          _buildSubmenuItem('전문가 정보'),
-                          _buildSubmenuItem('알림 설정'),
-                        ],
-                      ),
-                    ),
+          child: Material(
+            elevation: 8,
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              width: overlayWidth,
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 16,
+                    offset: Offset(0, 4),
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildSubmenuItem('내 정보'),
+                  _buildSubmenuItem('전문가 정보'),
+                  _buildSubmenuItem('알림 설정'),
+                ],
+              ),
             ),
           ),
         ),
@@ -401,13 +426,17 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
   Widget _buildSubmenuItem(String text) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      child: InkWell(
-        onTap: () {},
-        hoverColor: const Color(0xFFF5F6F8),
-        borderRadius: BorderRadius.zero,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          child: Text(text, style: TextStyle(fontSize: 15, color: Colors.black)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {},
+          hoverColor: const Color(0xFFF5F6F8),
+          borderRadius: BorderRadius.zero,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+            child: Text(text, style: TextStyle(fontSize: 15, color: Colors.black)),
+          ),
         ),
       ),
     );
@@ -433,7 +462,12 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
           },
           onExit: (_) {
             setState(() => _isProfileHovering = false);
-            _tryHideProfileOverlay();
+            // 프로필 아바타를 벗어날 때 상태 확인
+            Future.delayed(const Duration(milliseconds: 50), () {
+              if (!_isProfileHovering && !_isProfileOverlayHovering && !_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
+                _forceHideAllOverlays();
+              }
+            });
           },
           child: GestureDetector(
             onTap: () {},
