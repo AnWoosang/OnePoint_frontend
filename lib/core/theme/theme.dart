@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_colors.dart';
-
 final ThemeData appTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.white,
   primaryColor: AppColors.grayLight,
-  
   // 전역 폰트 설정 - 직접 추가한 Pretendard
   fontFamily: 'Pretendard',
   textTheme: TextTheme(
     // 기본 텍스트 스타일들
     bodyLarge: TextStyle(
-      fontSize: 14.sp, 
+      fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       fontFamily: 'Pretendard',
     ),
     bodyMedium: TextStyle(
-      fontSize: 13.sp, 
+      fontSize: 13.sp,
       fontWeight: FontWeight.w400,
       fontFamily: 'Pretendard',
     ),
     labelSmall: TextStyle(
-      fontSize: 10.sp, 
+      fontSize: 10.sp,
       fontWeight: FontWeight.w500,
       fontFamily: 'Pretendard',
     ),
@@ -42,7 +40,6 @@ final ThemeData appTheme = ThemeData(
       fontFamily: 'Pretendard',
     ),
   ),
-
   appBarTheme: AppBarTheme(
     backgroundColor: AppColors.white,
     elevation: 0,
@@ -50,22 +47,20 @@ final ThemeData appTheme = ThemeData(
     titleTextStyle: TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w700,
-      fontFamily: 'Pretendard',
+      fontFamily: 'NotoSansKR',
       color: AppColors.black,
     ),
   ),
-
   chipTheme: ChipThemeData(
     backgroundColor: AppColors.primary.withOpacity(0.1),
     labelStyle: TextStyle(
       fontSize: 12.sp,
-      fontFamily: 'Pretendard',
+      fontFamily: 'NotoSansKR',
       color: AppColors.black,
     ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.r),
     ),
   ),
-
   dividerColor: AppColors.grayLight,
 );
