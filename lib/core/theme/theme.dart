@@ -47,7 +47,7 @@ final ThemeData appTheme = ThemeData(
     titleTextStyle: TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w700,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
       color: AppColors.black,
     ),
   ),
@@ -55,7 +55,7 @@ final ThemeData appTheme = ThemeData(
     backgroundColor: AppColors.primary.withOpacity(0.1),
     labelStyle: TextStyle(
       fontSize: 12.sp,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
       color: AppColors.black,
     ),
     shape: RoundedRectangleBorder(

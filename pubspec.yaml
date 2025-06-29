@@ -14,7 +14,6 @@ dependencies:
   flutter_screenutil: ^5.9.3
   cupertino_icons: ^1.0.8
   infinite_carousel: ^1.0.2
-  google_fonts: ^6.2.1
   provider: ^6.1.1
   shared_preferences: ^2.5.3
   flutter_riverpod: ^2.6.1
