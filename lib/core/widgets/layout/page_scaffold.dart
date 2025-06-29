@@ -1,44 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitkle/core/utils/responsive.dart';
+import 'package:fitkle/core/utils/performance_utils.dart';
 import 'package:fitkle/core/widgets/layout/header_widget.dart';
 import 'package:fitkle/core/widgets/layout/footer_widget.dart';
 import 'package:fitkle/core/widgets/layout/mobile/mobile_bottom_nav.dart';
 
-class PageScaffold extends StatefulWidget {
+class PageScaffold extends ConsumerStatefulWidget {
   final Widget child;
   final double? verticalSpacing;
+  final bool showHeader;
+  final bool showFooter;
+  final bool showBottomNav;
+  final ScrollController? scrollController;
 
   const PageScaffold({
     super.key,
     required this.child,
     this.verticalSpacing,
+    this.showHeader = true,
+    this.showFooter = true,
+    this.showBottomNav = true,
+    this.scrollController,
   });
 
   @override
-  State<PageScaffold> createState() => _PageScaffoldState();
+  ConsumerState<PageScaffold> createState() => _PageScaffoldState();
 }
 
-class _PageScaffoldState extends State<PageScaffold> {
-  final ScrollController _scrollController = ScrollController();
+class _PageScaffoldState extends ConsumerState<PageScaffold> {
+  late ScrollController _scrollController;
   bool _showBottomNav = true;
   double _lastOffset = 0;
-
   int _selectedIndex = 0;
-
-  void _onBottomNavTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
+    _scrollController = widget.scrollController ?? ScrollController();
     _scrollController.addListener(_handleScroll);
   }
 
+  @override
+  void dispose() {
+    if (widget.scrollController == null) {
+      _scrollController.dispose();
+    }
+    super.dispose();
+  }
+
   void _handleScroll() {
+    if (!mounted) return;
+    
     final offset = _scrollController.position.pixels;
 
     if (offset > _lastOffset && _showBottomNav) {
@@ -52,10 +66,10 @@ class _PageScaffoldState extends State<PageScaffold> {
     _lastOffset = offset;
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  void _onBottomNavTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -64,67 +78,26 @@ class _PageScaffoldState extends State<PageScaffold> {
     final verticalSpacing = widget.verticalSpacing ?? (isApp ? 16.h : 32.h);
     final horizontalPadding = Responsive.getResponsiveHorizontalPadding(context);
 
-    final header = HeaderWidget(
-      isApp: isApp,
-    );
-
-    final footer = FooterWidget(
-      horizontalPadding: horizontalPadding,
-      verticalSpacing: verticalSpacing,
-      isApp: isApp,
-    );
-
-    //ㅇㅕ기서 헤더랑 푸터랑 다 구성을 하는거임
-    final scrollableBody = isApp
-      ? Column(
-          children: [
-            header,
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                physics: const ClampingScrollPhysics(),
-                padding: EdgeInsets.only(bottom: 80.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    widget.child,
-                    footer,
-                  ],
-                ),
-              ),
-            ),
-          ],
-        )
-      : SingleChildScrollView(
-          controller: _scrollController,
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              header, // ✅ 웹에선 헤더도 스크롤 안에 포함
-              widget.child,
-              footer,
-            ],
-          ),
-        );
-
-    // ✅ 전체 Body 영역 (스크롤 포함)
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          SafeArea(child: scrollableBody),
+          SafeArea(
+            child: _buildScrollableBody(
+              isApp: isApp,
+              horizontalPadding: horizontalPadding,
+              verticalSpacing: verticalSpacing,
+            ),
+          ),
 
-          // ✅ 바텀 네비게이션 (모바일 전용)
-          if (isApp)
+          // 바텀 네비게이션 (모바일 전용)
+          if (isApp && widget.showBottomNav)
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
               child: AnimatedSlide(
-                duration: const Duration(milliseconds: 300),
+                duration: PerformanceUtils.getOptimizedAnimationDuration(),
                 offset: _showBottomNav ? Offset.zero : const Offset(0, 1),
                 child: MobileBottomNav(
                   currentIndex: _selectedIndex,
@@ -135,5 +108,64 @@ class _PageScaffoldState extends State<PageScaffold> {
         ],
       ),
     );
+  }
+
+  Widget _buildScrollableBody({
+    required bool isApp,
+    required double horizontalPadding,
+    required double verticalSpacing,
+  }) {
+    final header = widget.showHeader 
+        ? HeaderWidget(isApp: isApp)
+        : const SizedBox.shrink();
+
+    final footer = widget.showFooter
+        ? FooterWidget(
+            horizontalPadding: horizontalPadding,
+            verticalSpacing: verticalSpacing,
+            isApp: isApp,
+          )
+        : const SizedBox.shrink();
+
+    if (isApp) {
+      return Column(
+        children: [
+          header,
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              physics: PerformanceUtils.getOptimizedScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 80.h),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height - 200,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    widget.child,
+                    footer,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return SingleChildScrollView(
+        controller: _scrollController,
+        physics: PerformanceUtils.getOptimizedScrollPhysics(),
+        padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            header,
+            widget.child,
+            footer,
+          ],
+        ),
+      );
+    }
   }
 }

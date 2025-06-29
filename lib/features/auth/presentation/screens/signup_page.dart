@@ -151,10 +151,7 @@ class SignupPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _circleSnsButton(
-            icon: DecoratedBox(
-              decoration: const BoxDecoration(),
-              child: Image.asset('assets/logo/google_icon.png', width: 24, height: 24),
-            ),
+            icon: const Icon(Icons.g_mobiledata, color: Colors.red, size: 28),
             bgColor: Colors.white,
             border: Border.all(color: _borderGray, width: 1),
           ),

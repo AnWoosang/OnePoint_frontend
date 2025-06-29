@@ -12,6 +12,7 @@ class ServiceRecommendationSurveyPage extends StatefulWidget {
 
 class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationSurveyPage> {
   int currentStep = 1;
+  int previousStep = 1;
   String? selectedCategory;
   String? selectedDetail;
 
@@ -148,7 +149,19 @@ class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationS
           physics: NeverScrollableScrollPhysics(),
           children: List.generate(options.length, (i) =>
             _SurveyCard(
-              onTap: () => onTap(i),
+              onTap: () {
+                if (options[i] == '대학(원)생' || options[i] == '프리랜서' || options[i] == '기타') {
+                  setState(() {
+                    previousStep = 1;
+                    currentStep = 4;
+                  });
+                } else {
+                  setState(() {
+                    previousStep = 1;
+                    currentStep = 2;
+                  });
+                }
+              },
               child: Center(
                 child: Text(
                   options[i],
@@ -199,7 +212,10 @@ class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationS
                 ],
               ),
               TextButton.icon(
-                onPressed: () => setState(() => currentStep = 1),
+                onPressed: () => setState(() {
+                  currentStep = previousStep;
+                  previousStep = 1;
+                }),
                 icon: const Icon(Icons.arrow_back, size: 20, color: Color(0xFF9CA3AF)),
                 label: const Text('이전으로', style: TextStyle(color: Color(0xFF9CA3AF))),
               ),
@@ -215,7 +231,10 @@ class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationS
             physics: NeverScrollableScrollPhysics(),
             children: List.generate(items.length, (i) {
               return _SurveyCard(
-                onTap: () => setState(() => currentStep = 3),
+                onTap: () => setState(() {
+                  previousStep = currentStep;
+                  currentStep = 3;
+                }),
                 child: Stack(
                   children: [
                     Align(
@@ -263,7 +282,10 @@ class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationS
                 ],
               ),
               TextButton.icon(
-                onPressed: () => setState(() => currentStep = 2),
+                onPressed: () => setState(() {
+                  currentStep = previousStep;
+                  previousStep = 1;
+                }),
                 icon: const Icon(Icons.arrow_back, size: 20, color: Color(0xFF9CA3AF)),
                 label: const Text('이전으로', style: TextStyle(color: Color(0xFF9CA3AF))),
               ),
@@ -279,7 +301,10 @@ class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationS
             physics: NeverScrollableScrollPhysics(),
             children: List.generate(items.length, (i) {
               return _SurveyCard(
-                onTap: () => setState(() => currentStep = 4),
+                onTap: () => setState(() {
+                  previousStep = currentStep;
+                  currentStep = 4;
+                }),
                 child: Stack(
                   children: [
                     Align(
@@ -325,7 +350,14 @@ class _ServiceRecommendationSurveyPageState extends State<ServiceRecommendationS
                       ],
                     ),
                     TextButton.icon(
-                      onPressed: () => setState(() => currentStep = 3),
+                      onPressed: () => setState(() {
+                        currentStep = previousStep;
+                        if (previousStep == 3) {
+                          previousStep = 2;
+                        } else if (previousStep == 1) {
+                          previousStep = 1;
+                        }
+                      }),
                       icon: const Icon(Icons.arrow_back, size: 20, color: Color(0xFF9CA3AF)),
                       label: const Text('이전으로', style: TextStyle(color: Color(0xFF9CA3AF))),
                     ),

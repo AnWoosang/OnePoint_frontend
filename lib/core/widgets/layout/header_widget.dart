@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitkle/core/utils/responsive.dart';
 import 'package:fitkle/core/theme/app_text_styles.dart';
 import 'package:fitkle/core/widgets/login_modal.dart';
 import 'package:fitkle/core/widgets/layout/header/profile_dropdown.dart';
+import 'package:fitkle/core/providers/auth_provider_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class HeaderWidget extends StatefulWidget {
+class HeaderWidget extends ConsumerWidget {
   final bool isApp;
 
   const HeaderWidget({
@@ -14,35 +17,27 @@ class HeaderWidget extends StatefulWidget {
   });
 
   @override
-  State<HeaderWidget> createState() => _HeaderWidgetState();
-}
-
-class _HeaderWidgetState extends State<HeaderWidget> {
-  bool _isLoggedIn = false; // mock 로그인 상태
-
-  void _mockLogin() async {
-    // 로그인 모달 닫고 로그인 상태로 전환
-    setState(() {
-      _isLoggedIn = true;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final horizontalPadding = Responsive.getResponsiveHorizontalPadding(context);
+    final isLoggedIn = ref.watch(isLoggedInProvider);
+    final authNotifier = ref.read(authProvider.notifier);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 24),
       child: Row(
         children: [
           // 로고
-          GestureDetector(
-            onTap: () {
-              // TODO: 홈으로 이동
-            },
-            child: SvgPicture.asset(
-              'assets/logo/FITKLE.svg',
-              height: 24, // 로고 높이 조절
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () {
+                // 홈으로 이동 (GoRouter)
+                context.go('/');
+              },
+              child: SvgPicture.asset(
+                'assets/logo/FITKLE.svg',
+                height: 24, // 로고 높이 조절
+              ),
             ),
           ),
           const SizedBox(width: 30),
@@ -63,7 +58,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 
           Expanded(child: Container()),
 
-          if (!_isLoggedIn) ...[
+          if (!isLoggedIn) ...[
             // 로그인/튜터등록
             ...['로그인', '튜터등록'].map((label) => Padding(
               padding: const EdgeInsets.only(left: 15),
@@ -72,19 +67,22 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 child: GestureDetector(
                   onTap: () async {
                     if (label == '로그인') {
-                      // 로그인 모달 열고, 성공 시 _mockLogin 호출
+                      // 로그인 모달 열고, 성공 시 AuthProvider의 login 호출
                       await showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return LoginModal(
-                            onLoginSuccess: _mockLogin,
+                            onLoginSuccess: () => authNotifier.login(),
                           );
                         },
                       );
                     }
                     // TODO: 튜터등록 라우팅
                   },
-                  child: Text(label, style: AppTextStyles.headerRightMenuDesktop),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Text(label, style: AppTextStyles.headerRightMenuDesktop),
+                  ),
                 ),
               ),
             )),
@@ -143,11 +141,12 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               ),
             ),
             // 5. 프로필(아바타 + 드롭다운)
-            ProfileDropdown(onLogout: () {
-              setState(() {
-                _isLoggedIn = false;
-              });
-            }),
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: ProfileDropdown(onLogout: () {
+                authNotifier.logout();
+              }),
+            ),
           ],
         ],
       ),

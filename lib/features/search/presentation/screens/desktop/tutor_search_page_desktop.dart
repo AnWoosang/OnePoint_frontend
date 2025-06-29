@@ -1,58 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:fitkle/core/widgets/layout/header_widget.dart';
-import 'package:fitkle/core/widgets/layout/footer_widget.dart';
 import 'package:fitkle/core/router/route_names.dart';
-import '../../providers/tutor_search_provider.dart';
-import '../../widgets/tutor_search_bar_section.dart';
-import '../../widgets/tutor_search_result_card.dart';
-import '../../../constants/search_constants.dart';
+import 'package:fitkle/features/search/constants/search_constants.dart';
+import 'package:fitkle/features/search/presentation/providers/tutor_search_provider_riverpod.dart';
+import 'package:fitkle/features/search/presentation/widgets/tutor_search_bar_section.dart';
+import 'package:fitkle/features/search/presentation/widgets/tutor_search_result_card.dart';
+import 'package:fitkle/features/search/presentation/widgets/category_sidebar.dart';
+import 'package:fitkle/features/search/domain/entities/tutor_search_params.dart';
 
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this.child, this.screenWidth);
-
-  final Widget child;
-  final double screenWidth;
-
-  @override
-  double get minExtent => 140; // 검색바 높이 증가
-  @override
-  double get maxExtent => 140;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            offset: const Offset(0, 2),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: child,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    // 화면 크기 변화 또는 내부 child가 변경되었을 때 재빌드
-    return oldDelegate.screenWidth != screenWidth || oldDelegate.child != child;
-  }
-}
-
-class TutorSearchPageDesktop extends StatefulWidget {
+class TutorSearchPageDesktop extends ConsumerStatefulWidget {
   const TutorSearchPageDesktop({super.key});
 
   @override
-  State<TutorSearchPageDesktop> createState() => _TutorSearchPageDesktopState();
+  ConsumerState<TutorSearchPageDesktop> createState() => _TutorSearchPageDesktopState();
 }
 
-class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
+class _TutorSearchPageDesktopState extends ConsumerState<TutorSearchPageDesktop> {
   final List<String> _categories = kTutorCategories;
   final List<String> _regions = kRegions;
   final ScrollController _scrollController = ScrollController();
@@ -63,7 +28,7 @@ class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
     
     // 초기 데이터 로드
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TutorSearchProvider>().initialLoad();
+      ref.read(searchProvider.notifier).searchTutors(const TutorSearchParams());
     });
   }
 
@@ -75,114 +40,101 @@ class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TutorSearchProvider>(
-      builder: (context, provider, child) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              // 헤더 영역 (고정)
-              const HeaderWidget(isApp: false),
-              // 메인 컨텐츠 영역 (스크롤 가능)
-              Expanded(
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: (notice) {
-                    if (notice.metrics.extentAfter < 400 && !provider.isLoadingMore) {
-                      provider.loadMoreTutors();
-                    }
-                    return false;
+    final searchState = ref.watch(searchProvider);
+    
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          // 헤더 영역 (고정)
+          const HeaderWidget(isApp: false),
+          // 메인 컨텐츠 영역 (스크롤 가능)
+          Expanded(
+            child: Row(
+              children: [
+                // 카테고리 사이드바 (고정)
+                CategorySidebar(
+                  categories: _categories,
+                  selectedCategory: searchState.searchParams.category,
+                  onCategorySelected: (category) {
+                    final newParams = searchState.searchParams.copyWith(
+                      category: category,
+                      page: 1,
+                    );
+                    ref.read(searchProvider.notifier).searchTutors(newParams);
                   },
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      // 더 안전한 패딩 계산
-                      final sidePad = constraints.maxWidth > 1200 
-                          ? constraints.maxWidth * 0.2 
-                          : constraints.maxWidth > 800 
-                              ? constraints.maxWidth * 0.1 
-                              : 20.0;
-                      return CustomScrollView(
-                        controller: _scrollController,
-                        slivers: [
-                          // 제목 영역
-                          SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: sidePad),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 32),
-                                  const Text(
-                                    '튜터찾기',
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: -1,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 24),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // 고정될 검색바 영역
-                          SliverPersistentHeader(
-                            pinned: true,
-                            delegate: _SliverAppBarDelegate(
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: sidePad),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  child: TutorSearchBarSection(
-                                    sortValue: provider.searchParams.sortBy,
-                                    regionValue: provider.searchParams.region,
-                                    categoryValue: provider.searchParams.category,
-                                    regions: _regions,
-                                    categories: _categories,
-                                    onSortChanged: (value) => provider.updateSortBy(value),
-                                    onRegionChanged: (value) => provider.updateRegion(value),
-                                    onCategoryChanged: (value) => provider.updateCategory(value),
-                                    onSearch: (query) => provider.updateQuery(query),
-                                  ),
-                                ),
-                              ),
-                              constraints.maxWidth, // 화면 너비 전달
-                            ),
-                          ),
-                          // 검색 결과 영역
-                          SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: sidePad),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 24),
-                                  _buildSearchResults(provider),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Footer 영역
-                          const SliverToBoxAdapter(
-                            child: FooterWidget(
-                              horizontalPadding: 40.0,
-                              verticalSpacing: 32.0,
-                              isApp: false,
-                            ),
-                          ),
-                        ],
-                      );
+                ),
+                // 메인 컨텐츠 영역
+                Expanded(
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification notice) {
+                      if (notice.metrics.extentAfter < 400 && !searchState.isLoading) {
+                        ref.read(searchProvider.notifier).loadMoreResults();
+                      }
+                      return false;
                     },
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      child: Padding(
+                        padding: const EdgeInsets.all(32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 검색 필터 섹션
+                            TutorSearchBarSection(
+                              sortValue: searchState.searchParams.sortBy,
+                              regionValue: searchState.searchParams.region,
+                              categoryValue: searchState.searchParams.category,
+                              regions: _regions.skip(1).toList(),
+                              categories: _categories.skip(1).toList(),
+                              onSortChanged: (value) {
+                                final newParams = searchState.searchParams.copyWith(
+                                  sortBy: value,
+                                  page: 1,
+                                );
+                                ref.read(searchProvider.notifier).searchTutors(newParams);
+                              },
+                              onRegionChanged: (value) {
+                                final newParams = searchState.searchParams.copyWith(
+                                  region: value,
+                                  page: 1,
+                                );
+                                ref.read(searchProvider.notifier).searchTutors(newParams);
+                              },
+                              onCategoryChanged: (value) {
+                                final newParams = searchState.searchParams.copyWith(
+                                  category: value,
+                                  page: 1,
+                                );
+                                ref.read(searchProvider.notifier).searchTutors(newParams);
+                              },
+                              onSearch: (query) {
+                                final newParams = searchState.searchParams.copyWith(
+                                  query: query,
+                                  page: 1,
+                                );
+                                ref.read(searchProvider.notifier).searchTutors(newParams);
+                              },
+                            ),
+                            const SizedBox(height: 32),
+                            // 검색 결과
+                            _buildSearchResults(searchState),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
-  Widget _buildSearchResults(TutorSearchProvider provider) {
-    if (provider.isLoading) {
+  Widget _buildSearchResults(SearchState searchState) {
+    if (searchState.isLoading) {
       return const Center(
         child: Padding(
           padding: EdgeInsets.all(32),
@@ -191,7 +143,7 @@ class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
       );
     }
 
-    if (provider.status == SearchStatus.error) {
+    if (searchState.hasError) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -203,14 +155,16 @@ class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
                 '검색 중 오류가 발생했습니다.',
                 style: TextStyle(fontSize: 16, color: Colors.grey[700]),
               ),
-              if (provider.errorMessage != null)
+              if (searchState.errorMessage != null)
                 Text(
-                  provider.errorMessage!,
+                  searchState.errorMessage!,
                   style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                 ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => provider.initialLoad(),
+                onPressed: () {
+                  ref.read(searchProvider.notifier).searchTutors(const TutorSearchParams());
+                },
                 child: const Text('다시 시도'),
               ),
             ],
@@ -219,7 +173,7 @@ class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
       );
     }
 
-    final tutors = provider.tutors;
+    final tutors = searchState.searchResults;
     if (tutors.isEmpty) {
       return const Center(
         child: Padding(
@@ -244,7 +198,7 @@ class _TutorSearchPageDesktopState extends State<TutorSearchPageDesktop> {
             child: TutorSearchResultCard(tutor: tutor),
           ),
         )),
-        if (provider.isLoadingMore)
+        if (searchState.isLoading)
           Container(
             padding: const EdgeInsets.all(16),
             alignment: Alignment.center,

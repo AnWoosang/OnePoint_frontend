@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/utils/nickname_generator.dart';
 
 class RecommendationCompletePage extends StatelessWidget {
   final String nickname;
-  const RecommendationCompletePage({super.key, this.nickname = '관대한복숭아8613'});
+  const RecommendationCompletePage({super.key, this.nickname = ''});
+
+  String get _displayNickname => nickname.isNotEmpty ? nickname : NicknameGenerator.generate();
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +41,11 @@ class RecommendationCompletePage extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: nickname,
+                      text: _displayNickname,
                       style: const TextStyle(
-                        color: Color(0xFF2563EB),
+                        color: AppColors.limeOlive,
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
-                        decoration: TextDecoration.underline,
                       ),
                     ),
                     const TextSpan(

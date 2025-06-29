@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileDropdown extends StatefulWidget {
   final VoidCallback onLogout;
@@ -160,15 +161,20 @@ class _ProfileDropdownState extends State<ProfileDropdown> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
+          mouseCursor: SystemMouseCursors.click,
           onTap: () {
-            if (text == '로그아웃') {
+            if (text == '프로필 관리') {
+              context.go('/profile/user');
+              _hideOverlay();
+            } else if (text == '로그아웃') {
               widget.onLogout();
               _hideOverlay();
             }
           },
           hoverColor: const Color(0xFFF5F6F8),
           borderRadius: BorderRadius.zero,
-          child: Padding(
+          child: Container(
+            width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,6 +193,7 @@ class _ProfileDropdownState extends State<ProfileDropdown> {
     return StatefulBuilder(
       builder: (context, setStateSB) {
         return MouseRegion(
+          cursor: SystemMouseCursors.click,
           onEnter: (_) {
             setState(() {
               _isSubmenuTriggerHovering = true;
@@ -204,7 +211,6 @@ class _ProfileDropdownState extends State<ProfileDropdown> {
             setState(() {
               _isSubmenuTriggerHovering = false;
             });
-            // 서브메뉴 트리거를 벗어날 때 상태 확인
             Future.delayed(const Duration(milliseconds: 50), () {
               if (!_isInfoOverlayHovering && !_isSubmenuTriggerHovering) {
                 _hideSubmenu();
@@ -215,20 +221,20 @@ class _ProfileDropdownState extends State<ProfileDropdown> {
             });
           },
           child: InkWell(
+            mouseCursor: SystemMouseCursors.click,
             onTap: () {},
             hoverColor: const Color(0xFFF5F6F8),
             borderRadius: BorderRadius.zero,
             child: Container(
+              width: double.infinity,
               color: _submenuOpen ? const Color(0xFFF5F6F8) : null,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(text, style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600)),
-                    const Icon(Icons.keyboard_arrow_right, size: 16, color: Color(0xFFB0B0B0)),
-                  ],
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(text, style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600)),
+                  const Icon(Icons.keyboard_arrow_right, size: 16, color: Color(0xFFB0B0B0)),
+                ],
               ),
             ),
           ),
@@ -247,6 +253,7 @@ class _ProfileDropdownState extends State<ProfileDropdown> {
         left: parentOffset.dx + parentOverlayWidth + overlayGap, // 부모 오버레이 오른쪽에 gap만큼 띄워서 배치
         top: parentOffset.dy, // 부모 메뉴 항목과 정확히 수평 정렬
         child: MouseRegion(
+          cursor: SystemMouseCursors.click,
           onEnter: (_) => setState(() => _isInfoOverlayHovering = true),
           onExit: (_) {
             setState(() => _isInfoOverlayHovering = false);
@@ -298,6 +305,7 @@ class _ProfileDropdownState extends State<ProfileDropdown> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
+          mouseCursor: SystemMouseCursors.click,
           onTap: () {},
           hoverColor: const Color(0xFFF5F6F8),
           borderRadius: BorderRadius.zero,

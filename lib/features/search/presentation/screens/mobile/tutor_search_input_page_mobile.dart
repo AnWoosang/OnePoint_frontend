@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../providers/tutor_search_provider.dart';
+import '../../providers/tutor_search_provider_riverpod.dart';
+import 'package:fitkle/features/search/domain/entities/tutor_search_params.dart';
 
 /// 모바일 검색 입력 페이지 (검색창을 눌렀을 때 나오는 화면)
-class TutorSearchInputPageMobile extends StatefulWidget {
+class TutorSearchInputPageMobile extends ConsumerStatefulWidget {
   const TutorSearchInputPageMobile({super.key});
 
   @override
-  State<TutorSearchInputPageMobile> createState() => _TutorSearchInputPageMobileState();
+  ConsumerState<TutorSearchInputPageMobile> createState() => _TutorSearchInputPageMobileState();
 }
 
-class _TutorSearchInputPageMobileState extends State<TutorSearchInputPageMobile> {
+class _TutorSearchInputPageMobileState extends ConsumerState<TutorSearchInputPageMobile> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
@@ -21,7 +22,6 @@ class _TutorSearchInputPageMobileState extends State<TutorSearchInputPageMobile>
     // 페이지가 열리면 바로 포커스
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
-      // context.read<TutorSearchProvider>().loadRecentSearches();
     });
   }
 
@@ -36,7 +36,12 @@ class _TutorSearchInputPageMobileState extends State<TutorSearchInputPageMobile>
     if (query.trim().isEmpty) return;
     
     // 검색 실행하고 뒤로가기
-    context.read<TutorSearchProvider>().updateQuery(query.trim());
+    final searchState = ref.read(searchProvider);
+    final newParams = searchState.searchParams.copyWith(
+      query: query.trim(),
+      page: 1,
+    );
+    ref.read(searchProvider.notifier).searchTutors(newParams);
     context.pop();
   }
 
@@ -49,48 +54,35 @@ class _TutorSearchInputPageMobileState extends State<TutorSearchInputPageMobile>
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
-        title: Container(
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(8),
+        title: TextField(
+          controller: _controller,
+          focusNode: _focusNode,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: '튜터를 검색해보세요',
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: Colors.grey),
           ),
-          child: TextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            decoration: InputDecoration(
-              hintText: '어떤 서비스가 필요하세요?',
-              hintStyle: TextStyle(color: Colors.grey[500]),
-              prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          onSubmitted: _performSearch,
+        ),
+        actions: [
+          if (_controller.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.clear, color: Colors.grey),
+              onPressed: () {
+                _controller.clear();
+                _focusNode.requestFocus();
+              },
             ),
-            onSubmitted: _performSearch,
-          ),
-        ),
+        ],
       ),
-      body: Consumer<TutorSearchProvider>(
-        builder: (context, provider, child) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 검색어 입력 안내
-              const Expanded(
-                child: Center(
-                  child: Text(
-                    '검색어를 입력해주세요.',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
+      body: const Center(
+        child: Text(
+          '검색어를 입력하고 엔터를 눌러주세요',
+          style: TextStyle(color: Colors.grey),
+        ),
       ),
     );
   }

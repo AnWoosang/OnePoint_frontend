@@ -68,7 +68,7 @@ class EmailSignupPage extends StatelessWidget {
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () => GoRouter.of(context).go('/signup/email/client'),
+                    onTap: () => GoRouter.of(context).go('/signup/email/client?type=tutee'),
                     child: _SelectCard(
                       icon: Icons.search,
                       iconBg: Color(0xFFFFF7D6),
@@ -81,12 +81,15 @@ class EmailSignupPage extends StatelessWidget {
                 const SizedBox(width: _cardSpacing),
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: _SelectCard(
-                    icon: Icons.laptop_mac,
-                    iconBg: Color(0xFFE6F4FF),
-                    iconAsset: null,
-                    title: '전문가로 활동',
-                    desc: '내가 잘하는 분야의 전문가로\n활동하고 수익을 창출하고 싶어요',
+                  child: GestureDetector(
+                    onTap: () => GoRouter.of(context).go('/signup/email/client?type=tutor'),
+                    child: _SelectCard(
+                      icon: Icons.laptop_mac,
+                      iconBg: Color(0xFFE6F4FF),
+                      iconAsset: null,
+                      title: '전문가로 활동',
+                      desc: '내가 잘하는 분야의 전문가로\n활동하고 수익을 창출하고 싶어요',
+                    ),
                   ),
                 ),
               ],

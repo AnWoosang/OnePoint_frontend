@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/router/route_names.dart';
 import '../../../constants/search_constants.dart';
-import '../../providers/tutor_search_provider.dart';
+import '../../providers/tutor_search_provider_riverpod.dart';
 import '../../widgets/mobile/tutor_search_result_card_mobile.dart';
+import 'package:fitkle/features/search/domain/entities/tutor_search_params.dart';
 
 /// 모바일 검색 결과 페이지
-class TutorSearchResultPageMobile extends StatefulWidget {
+class TutorSearchResultPageMobile extends ConsumerStatefulWidget {
   final String searchQuery;
   
   const TutorSearchResultPageMobile({
@@ -16,10 +17,10 @@ class TutorSearchResultPageMobile extends StatefulWidget {
   });
 
   @override
-  State<TutorSearchResultPageMobile> createState() => _TutorSearchResultPageMobileState();
+  ConsumerState<TutorSearchResultPageMobile> createState() => _TutorSearchResultPageMobileState();
 }
 
-class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobile> {
+class _TutorSearchResultPageMobileState extends ConsumerState<TutorSearchResultPageMobile> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -30,17 +31,22 @@ class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobil
     
     // 무한 스크롤 리스너
     _scrollController.addListener(() {
-      final provider = context.read<TutorSearchProvider>();
+      final searchState = ref.read(searchProvider);
       if (_scrollController.position.pixels >= 
           _scrollController.position.maxScrollExtent - 200 && 
-          !provider.isLoadingMore) {
-        provider.loadMoreTutors();
+          !searchState.isLoading) {
+        ref.read(searchProvider.notifier).loadMoreResults();
       }
     });
     
     // 검색 실행
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TutorSearchProvider>().updateQuery(widget.searchQuery);
+      final searchState = ref.read(searchProvider);
+      final newParams = searchState.searchParams.copyWith(
+        query: widget.searchQuery,
+        page: 1,
+      );
+      ref.read(searchProvider.notifier).searchTutors(newParams);
     });
   }
 
@@ -54,12 +60,19 @@ class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobil
   void _performSearch() {
     final query = _controller.text.trim();
     if (query.isNotEmpty) {
-      context.read<TutorSearchProvider>().updateQuery(query);
+      final searchState = ref.read(searchProvider);
+      final newParams = searchState.searchParams.copyWith(
+        query: query,
+        page: 1,
+      );
+      ref.read(searchProvider.notifier).searchTutors(newParams);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final searchState = ref.watch(searchProvider);
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -67,108 +80,39 @@ class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobil
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
-        title: Container(
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(8),
+        title: TextField(
+          controller: _controller,
+          decoration: const InputDecoration(
+            hintText: '튜터를 검색해보세요',
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: Colors.grey),
           ),
-          child: TextField(
-            controller: _controller,
-            decoration: InputDecoration(
-              hintText: widget.searchQuery,
-              hintStyle: TextStyle(color: Colors.grey[500]),
-              prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 8),
-            ),
-            onSubmitted: (_) => _performSearch(),
-          ),
+          onSubmitted: (_) => _performSearch(),
         ),
-      ),
-      body: Column(
-        children: [
-          // 필터 섹션
-          _buildFilterSection(),
-          
-          // 검색 결과
-          Expanded(
-            child: Consumer<TutorSearchProvider>(
-              builder: (context, provider, child) {
-                return _buildSearchResults(provider);
+        actions: [
+          if (_controller.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.clear, color: Colors.grey),
+              onPressed: () {
+                _controller.clear();
               },
             ),
-          ),
         ],
       ),
+      body: _buildSearchResults(searchState),
     );
   }
 
-  Widget _buildFilterSection() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          _buildFilterDropdown('서비스', kTutorCategories.skip(1).toList()),
-          const SizedBox(width: 12),
-          _buildFilterDropdown('지역', kRegions.skip(1).toList()),
-          const Spacer(),
-          _buildSortDropdown(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterDropdown(String label, List<String> items) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(fontSize: 14),
-          ),
-          const SizedBox(width: 4),
-          Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.grey[600]),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSortDropdown() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            '리뷰 많은순',
-            style: TextStyle(fontSize: 14),
-          ),
-          const SizedBox(width: 4),
-          Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.grey[600]),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSearchResults(TutorSearchProvider provider) {
-    if (provider.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+  Widget _buildSearchResults(SearchState searchState) {
+    if (searchState.isLoading && searchState.searchResults.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
 
-    if (provider.status == SearchStatus.error) {
+    if (searchState.hasError) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -179,9 +123,20 @@ class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobil
               '검색 중 오류가 발생했습니다.',
               style: TextStyle(fontSize: 16, color: Colors.grey[700]),
             ),
+            if (searchState.errorMessage != null)
+              Text(
+                searchState.errorMessage!,
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _performSearch,
+              onPressed: () {
+                final newParams = searchState.searchParams.copyWith(
+                  query: widget.searchQuery,
+                  page: 1,
+                );
+                ref.read(searchProvider.notifier).searchTutors(newParams);
+              },
               child: const Text('다시 시도'),
             ),
           ],
@@ -189,12 +144,19 @@ class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobil
       );
     }
 
-    final tutors = provider.tutors;
+    final tutors = searchState.searchResults;
     if (tutors.isEmpty) {
       return const Center(
-        child: Text(
-          '검색 결과가 없습니다.',
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search_off, size: 48, color: Colors.grey),
+            SizedBox(height: 16),
+            Text(
+              '검색 결과가 없습니다.',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
         ),
       );
     }
@@ -202,25 +164,31 @@ class _TutorSearchResultPageMobileState extends State<TutorSearchResultPageMobil
     return ListView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: tutors.length + (provider.isLoadingMore ? 1 : 0),
+      itemCount: tutors.length + (searchState.isLoading ? 1 : 0),
       itemBuilder: (context, index) {
-        if (index == tutors.length) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: CircularProgressIndicator(),
-            ),
+        if (index >= tutors.length) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
 
         final tutor = tutors[index];
         return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          child: GestureDetector(
-            onTap: () {
-              context.go(RoutePaths.tutorDetail(tutor.id));
-            },
-            child: TutorSearchResultCardMobile(tutor: tutor),
+          margin: const EdgeInsets.only(bottom: 12),
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Colors.grey.shade200),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () => context.go('/tutor/${tutor.id}'),
+              child: TutorSearchResultCardMobile(tutor: tutor),
+            ),
           ),
         );
       },

@@ -8,8 +8,10 @@ class RouteNames {
   static const mypage = '/mypage';
   static const tutorDetail = '/tutor/:id';
   static const productSearch = '/search/products';
+  static const profileManage = '/profile/:nickname';
 }
 
 class RoutePaths {
   static String tutorDetail(String id) => '/tutor/$id';
+  static String profileManage(String nickname) => '/profile/$nickname';
 } 
