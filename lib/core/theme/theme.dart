@@ -6,40 +6,40 @@ final ThemeData appTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.white,
   primaryColor: AppColors.grayLight,
   
-  // 전역 폰트 설정 - 직접 추가한 Noto Sans KR
-  fontFamily: 'NotoSansKR',
+  // 전역 폰트 설정 - 직접 추가한 Pretendard
+  fontFamily: 'Pretendard',
   textTheme: TextTheme(
     // 기본 텍스트 스타일들
     bodyLarge: TextStyle(
       fontSize: 14.sp, 
       fontWeight: FontWeight.w400,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
     ),
     bodyMedium: TextStyle(
       fontSize: 13.sp, 
       fontWeight: FontWeight.w400,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
     ),
     labelSmall: TextStyle(
       fontSize: 10.sp, 
       fontWeight: FontWeight.w500,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
     ),
     // 제목 스타일들
     titleLarge: TextStyle(
       fontSize: 20.sp,
       fontWeight: FontWeight.w700,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
     ),
     titleMedium: TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w600,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
     ),
     titleSmall: TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
     ),
   ),
 
@@ -50,7 +50,7 @@ final ThemeData appTheme = ThemeData(
     titleTextStyle: TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w700,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
       color: AppColors.black,
     ),
   ),
@@ -59,7 +59,7 @@ final ThemeData appTheme = ThemeData(
     backgroundColor: AppColors.primary.withOpacity(0.1),
     labelStyle: TextStyle(
       fontSize: 12.sp,
-      fontFamily: 'NotoSansKR',
+      fontFamily: 'Pretendard',
       color: AppColors.black,
     ),
     shape: RoundedRectangleBorder(

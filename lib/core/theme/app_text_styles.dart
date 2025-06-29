@@ -5,7 +5,32 @@ import 'app_colors.dart';
 
 /// `.sp.clampDouble(min, max)` 으로 사용 가능
 class AppTextStyles {
-  static const defaultFontFamily = 'NotoSansKR'; // 폰트 변경
+  static const defaultFontFamily = 'Pretendard'; // 폰트 변경
+
+  // ✅ General Styles
+  static final subtitle1 = TextStyle(
+    fontSize: 16.sp.clampDouble(14, 18),
+    fontWeight: FontWeight.w700,
+    color: AppColors.textHeading,
+  );
+  
+  static final body1 = TextStyle(
+    fontSize: 14.sp.clampDouble(12, 16),
+    fontWeight: FontWeight.w500,
+    color: AppColors.textDefault,
+  );
+
+  static final body2 = TextStyle(
+    fontSize: 13.sp.clampDouble(11, 15),
+    fontWeight: FontWeight.w400,
+    color: AppColors.textDefault,
+  );
+  
+  static final caption = TextStyle(
+    fontSize: 12.sp.clampDouble(10, 14),
+    fontWeight: FontWeight.w400,
+    color: AppColors.textMuted,
+  );
 
   static final alertDialogDesktop = TextStyle(
     fontSize: 14.sp.clampDouble(12, 16),
