@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../theme/app_colors.dart';
-import '../../providers/cursor_provider_riverpod.dart';
+import 'package:fitkle/core/theme/app_colors.dart';
+import 'package:fitkle/core/providers/cursor_provider_riverpod.dart';
 
 class AppScaffold extends ConsumerWidget {
-  final Widget body;
+  final Widget child;
   final PreferredSizeWidget? appBar;
   final Widget? drawer;
   final Widget? endDrawer;
@@ -18,7 +18,7 @@ class AppScaffold extends ConsumerWidget {
 
   const AppScaffold({
     super.key,
-    required this.body,
+    required this.child,
     this.appBar,
     this.drawer,
     this.endDrawer,
@@ -41,7 +41,7 @@ class AppScaffold extends ConsumerWidget {
         appBar: appBar,
         drawer: drawer,
         endDrawer: endDrawer,
-        body: body,
+        body: child,
         bottomNavigationBar: bottomNavigationBar,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,

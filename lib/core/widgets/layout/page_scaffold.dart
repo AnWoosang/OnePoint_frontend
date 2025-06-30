@@ -5,7 +5,6 @@ import 'package:fitkle/core/utils/responsive.dart';
 import 'package:fitkle/core/utils/performance_utils.dart';
 import 'package:fitkle/core/widgets/layout/header_widget.dart';
 import 'package:fitkle/core/widgets/layout/footer_widget.dart';
-import 'package:fitkle/core/widgets/layout/mobile/mobile_bottom_nav.dart';
 
 class PageScaffold extends ConsumerStatefulWidget {
   final Widget child;
@@ -91,20 +90,20 @@ class _PageScaffoldState extends ConsumerState<PageScaffold> {
           ),
 
           // 바텀 네비게이션 (모바일 전용)
-          if (isApp && widget.showBottomNav)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: AnimatedSlide(
-                duration: PerformanceUtils.getOptimizedAnimationDuration(),
-                offset: _showBottomNav ? Offset.zero : const Offset(0, 1),
-                child: MobileBottomNav(
-                  currentIndex: _selectedIndex,
-                  onTap: _onBottomNavTap,
-                ),
-              ),
-            ),
+          // if (isApp && widget.showBottomNav)
+          //   Positioned(
+          //     left: 0,
+          //     right: 0,
+          //     bottom: 0,
+          //     child: AnimatedSlide(
+          //       duration: PerformanceUtils.getOptimizedAnimationDuration(),
+          //       offset: _showBottomNav ? Offset.zero : const Offset(0, 1),
+          //       child: MobileBottomNav(
+          //         currentIndex: _selectedIndex,
+          //         onTap: _onBottomNavTap,
+          //       ),
+          //     ),
+          //   ),
         ],
       ),
     );

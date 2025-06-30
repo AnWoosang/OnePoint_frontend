@@ -92,8 +92,7 @@ final router = GoRouter(
       path: RouteNames.profileManage,
       name: RouteNames.profileManage,
       builder: (context, state) {
-        final nickname = state.pathParameters['nickname'];
-        return ProfileManageScreen(nickname: nickname);
+        return ProfileManageScreen();
       },
     ),
     GoRoute(

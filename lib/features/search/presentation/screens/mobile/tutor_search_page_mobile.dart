@@ -5,7 +5,6 @@ import '../../../constants/search_constants.dart';
 import '../../providers/tutor_search_provider_riverpod.dart';
 import '../../widgets/tutor_search_bar_section.dart';
 import '../../widgets/mobile/tutor_search_result_card_mobile.dart';
-import 'package:fitkle/core/widgets/layout/mobile/mobile_bottom_nav.dart';
 import 'package:fitkle/core/router/route_names.dart';
 import 'package:fitkle/features/search/domain/entities/tutor_search_params.dart';
 
@@ -153,10 +152,10 @@ class _TutorSearchPageMobileState extends ConsumerState<TutorSearchPageMobile> {
           _buildTutorList(searchState),
         ],
       ),
-      bottomNavigationBar: MobileBottomNav(
-        currentIndex: _selectedIndex,
-        onTap: _onBottomNavTap,
-      ),
+      // bottomNavigationBar: MobileBottomNav(
+      //   currentIndex: _selectedIndex,
+      //   onTap: _onBottomNavTap,
+      // ),
     );
   }
 
